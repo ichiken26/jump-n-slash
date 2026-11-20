@@ -42,6 +42,7 @@ h1 span { color: #43e6bf; }
   font-variant-numeric: tabular-nums;
 }
 .viewport { position: relative; width: 100%; }
+.stage { position: relative; width: 100%; }
 .sprite-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .sprite {
   position: absolute;
@@ -122,4 +123,80 @@ canvas {
     font-size: 16px;
   }
   .hint { font-size: 11px; }
+}
+
+/* スマホの横画面は高さが足りないので、スクロールせず一画面に収める */
+@media (orientation: landscape) and (max-height: 520px) {
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+  body {
+    min-height: 100dvh;
+    height: 100dvh;
+    padding:
+      max(8px, env(safe-area-inset-top))
+      max(12px, env(safe-area-inset-right))
+      max(8px, env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+  }
+  .game {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+  }
+  .header {
+    flex-wrap: nowrap;
+    gap: 12px;
+    margin-bottom: 0;
+  }
+  .header p { display: none; }
+  h1 { font-size: 18px; }
+  .scores { gap: 14px; }
+  .scores strong { font-size: 22px; }
+  .viewport {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    container-type: size;
+  }
+  .stage {
+    width: min(100cqw, calc(100cqh * 800 / 260));
+    aspect-ratio: 800 / 260;
+  }
+  canvas {
+    width: 100%;
+    height: 100%;
+    box-shadow: 3px 3px 0 #06111e;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 0;
+  }
+  .controls div {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+  }
+  .controls span { display: none; }
+  .key-btn {
+    width: auto;
+    min-width: 84px;
+    min-height: 40px;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+  .hint {
+    margin-top: 0;
+    font-size: 11px;
+    white-space: nowrap;
+  }
 }
