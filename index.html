@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jump n' Slash</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <main class="game">
+    <header class="header">
+      <div>
+        <h1>JUMP <span>n'</span> SLASH</h1>
+        <p>SpaceでJump！</p>
+        <p>敵はEnterでSLASH！</p>
+      </div>
+      <div class="scores">
+        <div><small>SCORE</small><strong id="score">0</strong></div>
+        <div><small>BEST</small><strong id="best">0</strong></div>
+      </div>
+    </header>
+
+    <div class="viewport">
+      <canvas id="canvas" width="800" height="260" aria-label="Jump n' Slashのゲーム画面"></canvas>
+      <div id="sprite-layer" class="sprite-layer" aria-hidden="true">
+        <img id="player-sprite" class="sprite" src="img/slime_sourd.gif" alt="" />
+      </div>
+    </div>
+
+    <div class="controls">
+      <div><kbd>SPACE</kbd> ジャンプ <span>／ 障害物を回避</span></div>
+      <div><kbd>ENTER</kbd> 攻撃 <span>／ 敵を倒す</span></div>
+    </div>
+    <p class="hint">SpaceかEnterでスタート｜障害物の回避・敵の撃破でスコア +1</p>
+  </main>
+</body>
+</html>
