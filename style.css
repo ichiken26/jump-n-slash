@@ -70,23 +70,56 @@ canvas {
 }
 .controls div { display: flex; align-items: center; gap: 8px; }
 .controls span { color: #99adc5; }
-kbd {
+.key-btn {
+  appearance: none;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 34px;
-  padding: 4px 10px;
+  min-width: 92px;
+  min-height: 44px;
+  padding: 8px 14px;
   background: #23374d;
   border: 2px solid #57718c;
   border-bottom-width: 5px;
   border-radius: 0;
   font: 700 14px/1 Consolas, "Courier New", monospace;
   color: #f4fcff;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+.key-btn:focus { outline: none; }
+.key-btn:focus-visible {
+  outline: 2px solid #43e6bf;
+  outline-offset: 3px;
+}
+.key-btn:active,
+.key-btn.is-pressed {
+  transform: translateY(3px);
+  border-bottom-width: 2px;
+  background: #1c4c62;
 }
 .hint { text-align: center; margin-top: 16px; font-size: 12px; }
 @media (max-width: 520px) {
   .scores { gap: 12px; }
-  .controls { gap: 12px; }
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .controls div {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    text-align: center;
+  }
   .controls span { display: none; }
+  .key-btn {
+    width: 100%;
+    min-height: 64px;
+    font-size: 16px;
+  }
   .hint { font-size: 11px; }
 }

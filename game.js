@@ -79,23 +79,43 @@ function reset() {
 }
 reset();
 
-window.addEventListener('keydown', (event) => {
-  if (event.code !== 'Space' && event.code !== 'Enter') return;
-  if (event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable]')) return;
-  event.preventDefault();
-  if (event.repeat) return;
-
+function pressAction(code) {
   if (state !== 'playing') {
     reset();
     state = 'playing';
   }
 
-  if (event.code === 'Space' && player.jumpTime >= JUMP_DURATION) {
+  if (code === 'Space' && player.jumpTime >= JUMP_DURATION) {
     player.jumpTime = 0;
   }
-  if (event.code === 'Enter' && player.attackTime <= 0) {
+  if (code === 'Enter' && player.attackTime <= 0) {
     player.attackTime = ATTACK_DURATION;
   }
+}
+
+window.addEventListener('keydown', (event) => {
+  if (event.code !== 'Space' && event.code !== 'Enter') return;
+  if (event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable]')) return;
+  event.preventDefault();
+  if (event.repeat) return;
+  pressAction(event.code);
+});
+
+document.querySelectorAll('.key-btn').forEach((button) => {
+  const code = button.dataset.key;
+  const release = () => button.classList.remove('is-pressed');
+
+  button.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    event.preventDefault();
+    button.classList.add('is-pressed');
+    pressAction(code);
+    try { button.setPointerCapture(event.pointerId); } catch {}
+  }, { passive: false });
+
+  button.addEventListener('pointerup', release);
+  button.addEventListener('pointercancel', release);
+  button.addEventListener('contextmenu', (event) => event.preventDefault());
 });
 
 function gameOver() {
@@ -392,8 +412,8 @@ function draw() {
     ctx.fillText(state === 'ready' ? 'JUMP & SLASH' : 'GAME OVER', WIDTH / 2, 99);
     ctx.font = 'bold 17px sans-serif';
     ctx.fillStyle = '#b9d4e8';
-    ctx.fillText(state === 'ready' ? 'SPACE / ENTER でスタート' :
-      `SCORE ${score} - SPACE / ENTER で再挑戦`, WIDTH / 2, 145);
+    ctx.fillText(state === 'ready' ? 'ボタンかキーでスタート' :
+      `SCORE ${score} - ボタンかキーで再挑戦`, WIDTH / 2, 145);
   }
   syncSprites();
 }
